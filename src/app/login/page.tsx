@@ -4,11 +4,15 @@ import { auth } from "@/shared/firebase/firebaseapi";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import Button from "@/components/ui/button/button";
+import * as Yup from 'yup';
+import Input from "@/components/ui/input/input";
+import { fieldErrorMessage, isFieldInvalid } from "../lib/helpers";
+import axios from "axios";
 
 export default function Home() {
-  useEffect(() => {
 
-  }, []);
 
   const [passwordshow1, setpasswordshow1] = useState(false);
 
@@ -41,11 +45,30 @@ export default function Home() {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
   const RouteChange = () => {
-    let path = "/dashboards/crm";
+    let path = "/dashboards";
     router.push(path);
   };
+
+  const SignInSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().required('Password is required'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema: SignInSchema,
+    onSubmit: async (values) => {
+      const res = await axios.post(`${process.env.NEXT_BACKEND_URL}/api/login`, values);
+    }
+  });
+
   return (
     <>
       <html>
@@ -69,31 +92,33 @@ export default function Home() {
                       </div>}
 
                       <p className="mb-4 text-[#8c9097] dark:text-white/50 opacity-[0.7] font-normal text-center">Welcome back</p>
-                      <div className="grid grid-cols-12 gap-y-4">
-                        <div className="xl:col-span-12 col-span-12">
-                          <label htmlFor="signin-email" className="form-label text-default">Email</label>
-                          <input type="text" name="email" className="form-control form-control-lg w-full !rounded-md" id="email" onChange={changeHandler} value={email} />
-                        </div>
-                        <div className="xl:col-span-12 col-span-12 mb-2">
-                          <label htmlFor="signin-password" className="form-label text-default block">Password</label>
-                          <div className="input-group">
-                            <input name="password" type={(passwordshow1) ? 'text' : "password"} value={password} onChange={changeHandler} className="form-control  !border-s form-control-lg !rounded-s-md" id="signin-password" placeholder="password" />
-                            <button onClick={() => setpasswordshow1(!passwordshow1)} aria-label="button" className="ti-btn ti-btn-light !rounded-s-none !mb-0" type="button" id="button-addon2"><i className={`${passwordshow1 ? 'ri-eye-line' : 'ri-eye-off-line'} align-middle`}></i></button>
+                      <form onSubmit={formik.handleSubmit}>
+                        <div className="grid grid-cols-12 gap-y-4">
+                          <div className="xl:col-span-12 col-span-12">
+                            <Input label="Email" placeholder="Email" {...formik.getFieldProps('email')} isInvalid={isFieldInvalid('email', formik)} errorMessage={fieldErrorMessage('email', formik)} />
                           </div>
-                          <div className="mt-2">
-                            <div className="form-check !ps-0">
-                              <input className="form-check-input" type="checkbox" defaultValue="" id="defaultCheck1" />
-                              <label className="form-check-label text-[#8c9097] dark:text-white/50 font-normal" htmlFor="defaultCheck1">
-                                Remember password ?
-                              </label>
+                          <div className="xl:col-span-12 col-span-12 mb-2">
+                            <label htmlFor="signin-password" className="form-label text-default block">Password</label>
+                            <div className="input-group">
+                              <input type={(passwordshow1) ? 'text' : "password"} className={`form-control  !border-s form-control-lg !rounded-s-md ${isFieldInvalid('password', formik) && '!border-danger focus:border-danger focus:ring-danger'}`} id="signin-password" placeholder="Password" {...formik.getFieldProps('password')} />
+                              <button onClick={() => setpasswordshow1(!passwordshow1)} aria-label="button" className="ti-btn ti-btn-light !rounded-s-none !mb-0" type="button" id="button-addon2"><i className={`${passwordshow1 ? 'ri-eye-line' : 'ri-eye-off-line'} align-middle`}></i></button>
+                            </div>
+                            {isFieldInvalid('password', formik) && <p className="text-sm text-red-600 mt-2" id="hs-validation-name-error-helper">{fieldErrorMessage('password', formik)}</p>}
+                            <div className="mt-2">
+                              <div className="form-check !ps-0">
+                                <input className="form-check-input" type="checkbox" defaultValue="" id="defaultCheck1" />
+                                <label className="form-check-label text-[#8c9097] dark:text-white/50 font-normal" htmlFor="defaultCheck1">
+                                  Remember password ?
+                                </label>
+                              </div>
                             </div>
                           </div>
+                          <div className="xl:col-span-12 col-span-12 grid mt-0">
+                            <Button type="submit" label="Login" loading={isLoading} color="primary" />
+                          </div>
                         </div>
-                        <div className="xl:col-span-12 col-span-12 grid mt-0">
-                          <button onClick={Login1} className="ti-btn ti-btn-primary !bg-primary !text-white !font-medium">Sign In</button>
-                        </div>
-                      </div>
-                      
+                      </form>
+
                     </div>
                   </div>
                 </div>

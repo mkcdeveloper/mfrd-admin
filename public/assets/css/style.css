@@ -11888,13 +11888,13 @@ input[type=week]::-webkit-calendar-picker-indicator, input[type=month]::-webkit-
 
 /* Start Modal Styles */
 .ti-modal {
-  @apply size-full fixed top-0 start-0 z-[80] hs-overlay-open:opacity-100 hs-overlay-open:duration-500 opacity-0 overflow-x-hidden transition-all overflow-y-auto pointer-events-none;
+  @apply size-full fixed top-0 start-0 z-[80]  overflow-x-hidden transition-all overflow-y-auto pointer-events-none;
 }
 .ti-modal .ti-modal-header {
   @apply flex justify-between items-center py-3 px-4 border-b dark:border-white/10;
 }
 .ti-modal .ti-modal-box {
-  @apply sm:max-w-lg sm:w-full m-3 sm:mx-auto;
+  @apply sm:max-w-7xl sm:w-full m-3 sm:mx-auto;
 }
 .ti-modal .ti-modal-content {
   @apply flex flex-col pointer-events-auto bg-white border shadow-sm rounded-sm dark:dark:bg-bodybg dark:border-white/10 dark:shadow-black/[0.05];

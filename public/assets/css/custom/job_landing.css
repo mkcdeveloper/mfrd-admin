@@ -28,7 +28,7 @@
 }
 
 .landing-body .landing-main-footer .landing-footer-list li:not(:first-child) {
-  @apply relative before:absolute before:w-[0.3rem] before:h-[0.3rem] before:border before:border-solid before:border-white before:rounded-full before:bg-transparent 
+  @apply relative before:absolute before:w-[0.3rem] before:h-[0.3rem] before:border before:border-solid before:border-white before:rounded-full before:bg-transparent
   before:-start-[0.2rem] before:top-2;
 }
 

@@ -1,5 +1,5 @@
 .toast-container {
-  @apply z-[1090]  max-w-full pointer-events-none;
+  @apply z-[1090] max-w-full pointer-events-none;
 }
 
 .toast {

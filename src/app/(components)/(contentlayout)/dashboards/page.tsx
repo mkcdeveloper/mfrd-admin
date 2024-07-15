@@ -1,11 +1,20 @@
 
 "use client"
 import Seo from '@/shared/layout-components/seo/seo';
-import React, { Fragment } from 'react'
+import React, { Fragment, useCallback, useState } from 'react'
 import dynamic from "next/dynamic";
+import Button from '@/components/ui/button/button';
+import Modal from '@/components/ui/modal/modal';
+import ModalFooter from '@/components/ui/modal/modal-footer';
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const Page = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
+
+  const [tabIndex, setTabIndex] = useState(0);
 
   return (
     <Fragment>
@@ -16,6 +25,35 @@ const Page = () => {
           <p className="font-normal text-[#8c9097] dark:text-white/50 text-[0.813rem]">Track your sales activity, leads and deals here.</p>
         </div>
       </div>
+      <Button label='Open Media Library' color='primary' className='mr-3 hs-dropdown-toggle' onClick={openModal} />
+
+      <Modal isOpen={isModalOpen} onClose={closeModal} title="Media Library">
+
+        <div className='tab'>
+          <div className='tab-header flex gap-2'>
+            <Button label='Browse Media' color='primary' variant={tabIndex == 0 ? 'default' : 'light'} onClick={() => setTabIndex(0)} />
+            <Button label='Upload' color='primary' variant={tabIndex == 1 ? 'default' : 'light'} onClick={() => setTabIndex(1)} />
+          </div>
+
+          <div className="tab-body py-2">
+            {(tabIndex === 0) && (
+              <>
+                Media
+              </>
+            )}
+            {(tabIndex === 1) && (
+              <>
+                Upload
+              </>
+            )}
+          </div>
+        </div>
+        <ModalFooter onClose={closeModal} onSave={() => {
+          console.log('Saving...');
+          closeModal();
+        }} />
+      </Modal>
+
     </Fragment>
   )
 }

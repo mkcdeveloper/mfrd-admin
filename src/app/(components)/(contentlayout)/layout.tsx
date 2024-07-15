@@ -7,10 +7,10 @@ import Sidebar from "@/shared/layout-components/sidebar/sidebar"
 import Switcher from "@/shared/layout-components/switcher/switcher"
 import { ThemeChanger } from "@/shared/redux/action"
 import store from "@/shared/redux/store"
-import { Fragment,  useState } from "react"
-import {  connect } from "react-redux"
+import { Fragment, useState } from "react"
+import { connect } from "react-redux"
 
-const Layout = ({children,}:any) => {
+const Layout = ({ children, }: any) => {
 
   const [MyclassName, setMyClass] = useState("");
 
@@ -27,27 +27,23 @@ const Layout = ({children,}:any) => {
   }
 
   return (
-    <>
-
-      
     <Fragment>
-        <Switcher/>
+      {/* <Switcher/> */}
       <div className='page'>
-        <Header/>
-        <Sidebar/>
+        <Header />
+        <Sidebar />
         <div className='content'>
-          <div className='main-content'  
-          onClick={Bodyclickk}
+          <div className='main-content'
+            onClick={Bodyclickk}
           >
             {children}
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
-      <Backtotop/>
-      <PrelineScript/>
+      <Backtotop />
+      <PrelineScript />
     </Fragment>
-    </>
   )
 }
 
@@ -55,4 +51,4 @@ const mapStateToProps = (state: any) => ({
   local_varaiable: state
 });
 
-export default connect(mapStateToProps, { ThemeChanger})(Layout);
+export default connect(mapStateToProps, { ThemeChanger })(Layout);
