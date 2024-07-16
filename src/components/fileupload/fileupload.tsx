@@ -1,3 +1,5 @@
+"use client"
+import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import Dropzone, { useDropzone, DropzoneOptions } from 'react-dropzone';
 
@@ -35,6 +37,7 @@ const FileUpload: React.FC = () => {
           </section>
         )}
       </Dropzone>
+      {imageUrl && <Image src={imageUrl} alt='' height={100} width={100}/>}
       
     </div>
   );
