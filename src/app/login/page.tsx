@@ -2,59 +2,26 @@
 import { basePath } from "@next.config";
 import { auth } from "@/shared/firebase/firebaseapi";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Button from "@/components/ui/button/button";
 import * as Yup from 'yup';
 import Input from "@/components/ui/input/input";
 import { fieldErrorMessage, isFieldInvalid } from "../lib/helpers";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import axios from "axios";
 
 export default function Home() {
 
-  const searchParams = useSearchParams()
+  const router = useRouter();
+  
 
   const [passwordshow1, setpasswordshow1] = useState(false);
 
   const [err, setError] = useState<null | string>(null);
-  const [data, setData] = useState({
-    "email": "adminnextjs@gmail.com",
-    "password": "1234567890",
-  });
-  const { email, password } = data;
-  const changeHandler = (e: any) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-    setError("");
-  };
-  const Login = (e: any) => {
-    e.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).then(
-      user => { console.log(user); RouteChange(); }).catch(err => { setError(err.message); });
-  };
-
-  const Login1 = (_e: any) => {
-    if (data.email == "adminnextjs@gmail.com" && data.password == "1234567890") {
-      RouteChange();
-    }
-    else {
-      setError("The Auction details did not Match");
-      setData({
-        "email": "adminnextjs@gmail.com",
-        "password": "1234567890",
-      });
-    }
-  };
-
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
-  const RouteChange = () => {
-    let path = "/dashboards";
-    router.push(path);
-  };
 
   const SignInSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),

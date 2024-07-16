@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Button from '@/components/ui/button/button';
 import Modal from '@/components/ui/modal/modal';
 import ModalFooter from '@/components/ui/modal/modal-footer';
+import Dropzone from '@/components/dropzone/dropzone';
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const Page = () => {
@@ -43,7 +44,7 @@ const Page = () => {
             )}
             {(tabIndex === 1) && (
               <>
-                Upload
+               <Dropzone/>
               </>
             )}
           </div>
