@@ -4,9 +4,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { ThemeChanger } from "../../redux/action";
 import { connect } from 'react-redux';
 import store from '@/shared/redux/store';
-import Modalsearch from '../modal-search/modalsearch';
 import { basePath } from '@next.config';
-import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 const Header = ({ local_varaiable, ThemeChanger }: any) => {
 
@@ -358,6 +357,7 @@ const Header = ({ local_varaiable, ThemeChanger }: any) => {
     };
   }, []);
 
+
   return (
     <Fragment>
       <div className="app-header">
@@ -490,12 +490,12 @@ const Header = ({ local_varaiable, ThemeChanger }: any) => {
                         <i className="ti ti-user-circle text-[1.125rem] me-2 opacity-[0.7] !inline-flex"></i>Profile
                       </Link>
                     </li>
-                    <li><Link className="w-full ti-dropdown-item !text-[0.8125rem] !p-[0.65rem] !gap-x-0 !inline-flex" href="#!"><i
+                    <li><Link className="w-full ti-dropdown-item !text-[0.8125rem] !p-[0.65rem] !gap-x-0 !inline-flex" href={''} onClick={(e) => signOut()}><i
                       className="ti ti-logout text-[1.125rem] me-2 opacity-[0.7] !inline-flex"></i>Log Out</Link></li>
                   </ul>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </nav>

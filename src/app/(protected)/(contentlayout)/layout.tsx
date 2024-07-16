@@ -7,10 +7,14 @@ import Sidebar from "@/shared/layout-components/sidebar/sidebar"
 import Switcher from "@/shared/layout-components/switcher/switcher"
 import { ThemeChanger } from "@/shared/redux/action"
 import store from "@/shared/redux/store"
-import { Fragment, useState } from "react"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { Fragment, useEffect, useState } from "react"
 import { connect } from "react-redux"
 
 const Layout = ({ children, }: any) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   const [MyclassName, setMyClass] = useState("");
 
@@ -25,8 +29,16 @@ const Layout = ({ children, }: any) => {
       }
     }
   }
+  useEffect(() => {
+    if (status === "loading") return; // Do nothing while loading
+    if (!session) router.push("/login");
+  }, [session, status, router]);
 
-  return (
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  return session ? (
     <Fragment>
       {/* <Switcher/> */}
       <div className='page'>
@@ -44,7 +56,7 @@ const Layout = ({ children, }: any) => {
       <Backtotop />
       <PrelineScript />
     </Fragment>
-  )
+  ) : null
 }
 
 const mapStateToProps = (state: any) => ({

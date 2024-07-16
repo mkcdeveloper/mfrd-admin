@@ -20,7 +20,6 @@ function Layout({ children, local_varaiable, ThemeChanger }: any) {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !theme.pageloading) {
-      console.log("gdgggg", !theme.pageloading)
       switcherdata.LocalStorageBackup(ThemeChanger, theme.setpageloading);
     }
   }, []);
