@@ -30,7 +30,7 @@ export const authOptions: AuthOptions = {
         jwt: ({ token, user }) => {
             console.log("JWT callback - token:", token);
             console.log("JWT callback - user:", user);
-            
+
             if (user) {
                 token.user = user;
             }

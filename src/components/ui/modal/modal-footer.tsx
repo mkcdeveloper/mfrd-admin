@@ -1,19 +1,13 @@
 import React from 'react'
 
 interface ModalFooterProps {
-    onClose?: () => void
-    onSave?: () => void
+    children?:React.ReactNode
 }
 
-const ModalFooter = ({ onClose, onSave }: ModalFooterProps) => {
+const ModalFooter = ({ children }: ModalFooterProps) => {
     return (
         <div className="ti-modal-footer">
-            <button type="button" className="hs-dropdown-toggle ti-btn ti-btn-secondary-full" onClick={onClose}>
-                Close
-            </button>
-            <button className="ti-btn ti-btn-primary-full" onClick={onSave}>
-                Save changes
-            </button>
+            {children}
         </div>
     )
 }

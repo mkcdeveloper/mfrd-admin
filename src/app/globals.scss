@@ -1,6 +1,12 @@
 @import "../../public/assets/css/style.css";
 
- //Packages css
+//Packages css
+
+@import "react-datepicker/dist/react-datepicker.css"; //(datepicker)
+
+
+@import 'react-quill/dist/quill.snow.css'; //  (Quill styles)
+
 @import "@simonwep/pickr/dist/themes/classic.min.css";
 @import "@simonwep/pickr/dist/themes/monolith.min.css";
 @import "@simonwep/pickr/dist/themes/nano.min.css";
@@ -8,18 +14,18 @@
 @import "simplebar-react/dist/simplebar.min.css";
 
 
-  @media (max-width: 991.98px) {
-    [data-toggled="open"] {
-      #responsive-overlay {
-        @apply visible #{!important};
-        --tw-bg-opacity: 0.5;
+@media (max-width: 991.98px) {
+  [data-toggled="open"] {
+    #responsive-overlay {
+      @apply visible #{!important};
+      --tw-bg-opacity: 0.5;
 
-      }
-    } 
-  }
-
-  @media screen and (min-width: 992px) {
-    [data-vertical-style=doublemenu] .app-sidebar .slide.has-sub.active > .slide-menu {
-        display: block !important;
     }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  [data-vertical-style=doublemenu] .app-sidebar .slide.has-sub.active>.slide-menu {
+    display: block !important;
+  }
 }

@@ -14,9 +14,16 @@ import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
 
 export default function Home() {
+  const { data: session, status } = useSession()
 
   const router = useRouter();
-  
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboards")
+    }
+  }, [status, router])
+
 
   const [passwordshow1, setpasswordshow1] = useState(false);
 

@@ -33,6 +33,7 @@ const ChartsIcon = <i className="bx bx-bar-chart-square side-menu__icon"></i>;
 const MapsIcon = <i className="bx bx-map side-menu__icon"></i>;
 
 const Icons = <i className="bx bx-store-alt side-menu__icon"></i>;
+const BookIcon = <i className='bx bx-book-bookmark side-menu__icon'></i>;
 
 const badge = (
   <span className="badge !bg-warning/10 !text-warning !py-[0.25rem] !px-[0.45rem] !text-[0.75em] ms-1">
@@ -62,19 +63,34 @@ export const MenuItems: any = [
 
   {
     icon: DashboardIcon,
-    badgetxt: badge,
+    path: "/dashboards",
     title: "Dashboards",
+    type: "link",
+    active: false,
+    selected: false,
+  },
+  {
+    icon: BookIcon,
+    title: "Products",
     type: "sub",
     active: false,
     selected: false,
     children: [
       {
-        path: "/dashboards/crm",
+        path: "/products/create",
         type: "link",
         active: false,
         selected: false,
-        dirchange: false, 
-        title: "CRM",
+        dirchange: false,
+        title: "Add Product",
+      },
+      {
+        path: "/products",
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+        title: "View Products",
       },
 
     ],
@@ -93,7 +109,7 @@ export const MenuItems: any = [
         type: "empty",
         active: false,
         selected: false,
-        dirchange: false, 
+        dirchange: false,
       },
 
       {
@@ -101,14 +117,14 @@ export const MenuItems: any = [
         type: "sub",
         active: false,
         selected: false,
-        dirchange: false, 
+        dirchange: false,
         children: [
           {
             path: "",
             type: "empty",
             active: false,
             selected: false,
-            dirchange: false, 
+            dirchange: false,
             title: "Nested-2-1",
           },
           {
@@ -116,7 +132,7 @@ export const MenuItems: any = [
             type: "empty",
             ctive: false,
             selected: false,
-            dirchange: false, 
+            dirchange: false,
             title: "Nested-2-2",
           },
           {
@@ -124,7 +140,7 @@ export const MenuItems: any = [
             type: "empty",
             active: false,
             selected: false,
-            dirchange: false, 
+            dirchange: false,
             title: "Nested-2-3",
           },
         ],
@@ -132,5 +148,5 @@ export const MenuItems: any = [
     ],
   },
 
- 
+
 ];
