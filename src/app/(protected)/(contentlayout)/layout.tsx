@@ -35,7 +35,12 @@ const Layout = ({ children, }: any) => {
   }, [session, status, router]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div className="h-svh justify-center items-center w-full">
+      <span className="loading flex justify-center items-center h-full w-full">
+        <i className="ri-loader-2-fill text-[3rem] animate-spin">
+        </i>
+      </span>
+    </div>;
   }
 
   return session ? (

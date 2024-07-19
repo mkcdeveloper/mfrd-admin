@@ -1,6 +1,5 @@
 "use client"
 import { basePath } from "@next.config";
-import { auth } from "@/shared/firebase/firebaseapi";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

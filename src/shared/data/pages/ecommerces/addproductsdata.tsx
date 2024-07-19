@@ -19,6 +19,81 @@ export const Addproduct: addproducts[] = [
     { value: "Stationery ", label: "Stationery" }
 ];
 
+export const availabilityStatus = [
+    { value: 'in_stock', label: 'In Stock' },
+    { value: 'out_of_stock', label: 'Out of Stock' },
+    { value: 'pre_order', label: 'Prepublication' }
+];
+
+export const productTags = [
+    { value: 'book', label: 'Book' },
+    { value: 'paperback', label: 'Paperback' },
+    { value: 'hardcover', label: 'Hardcover' },
+    { value: 'ebook', label: 'eBook' },
+    { value: 'audiobook', label: 'Audiobook' },
+
+    { value: 'islamic', label: 'Islamic' },
+    { value: 'quran', label: 'Quran' },
+    { value: 'hadith', label: 'Hadith' },
+    { value: 'prophets', label: 'Prophets' },
+    { value: 'islamic_history', label: 'Islamic History' },
+    { value: 'islamic_fiction', label: 'Islamic Fiction' },
+    { value: 'islamic_biography', label: 'Islamic Biography' },
+    { value: 'islamic_law', label: 'Islamic Law' },
+    { value: 'islamic_education', label: 'Islamic Education' },
+    { value: 'duas', label: 'Duas' },
+    { value: 'prayers', label: 'Prayers' },
+    { value: 'ramadan', label: 'Ramadan' },
+    { value: 'hajj', label: 'Hajj' },
+
+    { value: 'fiction', label: 'Fiction' },
+    { value: 'non_fiction', label: 'Non-Fiction' },
+    { value: 'mystery', label: 'Mystery' },
+    { value: 'thriller', label: 'Thriller' },
+    { value: 'romance', label: 'Romance' },
+    { value: 'science_fiction', label: 'Science Fiction' },
+    { value: 'fantasy', label: 'Fantasy' },
+    { value: 'historical_fiction', label: 'Historical Fiction' },
+    { value: 'biography', label: 'Biography' },
+    { value: 'memoir', label: 'Memoir' },
+    { value: 'self_help', label: 'Self-Help' },
+    { value: 'children_books', label: 'Children’s Books' },
+    { value: 'young_adult', label: 'Young Adult' },
+    { value: 'graphic_novels', label: 'Graphic Novels' },
+    { value: 'poetry', label: 'Poetry' },
+    { value: 'classics', label: 'Classics' },
+    { value: 'horror', label: 'Horror' },
+    { value: 'adventure', label: 'Adventure' },
+    { value: 'crime', label: 'Crime' },
+    { value: 'dystopian', label: 'Dystopian' },
+
+    { value: 'best_seller', label: 'Best Seller' },
+    { value: 'new_release', label: 'New Release' },
+    { value: 'award_winning', label: 'Award-Winning' },
+    { value: 'series', label: 'Series' },
+    { value: 'signed_copy', label: 'Signed Copy' },
+    { value: 'limited_edition', label: 'Limited Edition' },
+    { value: 'collectors_edition', label: 'Collector’s Edition' },
+    { value: 'friendship', label: 'Friendship' },
+    { value: 'war', label: 'War' },
+    { value: 'coming_of_age', label: 'Coming of Age' },
+    { value: 'family', label: 'Family' },
+    { value: 'magic', label: 'Magic' },
+    { value: 'detective', label: 'Detective' },
+    { value: 'space', label: 'Space' },
+    { value: 'time_travel', label: 'Time Travel' },
+    { value: 'historical_events', label: 'Historical Events' },
+    { value: 'personal_development', label: 'Personal Development' },
+    { value: 'health', label: 'Health' },
+    { value: 'travel', label: 'Travel' },
+    { value: 'cooking', label: 'Cooking' },
+    { value: 'english', label: 'English' },
+    { value: 'arabic', label: 'Arabic' },
+    { value: 'malayalam', label: 'Malayalam' },
+    { value: 'for_students', label: 'For Students' },
+    { value: 'for_teachers', label: 'For Teachers' }
+];
+
 //Gender
 
 interface addproduct1 {
