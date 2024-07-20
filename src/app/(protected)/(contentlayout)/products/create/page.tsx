@@ -2,6 +2,7 @@
 import api from '@/app/lib/axios';
 import { fieldErrorMessage, isFieldInvalid } from '@/app/lib/helpers';
 import MediaLibrary from '@/components/media-libarary/media-library';
+import Button from '@/components/ui/button/button';
 import Input from '@/components/ui/input/input';
 import Select from '@/components/ui/select/select';
 import { productTags, availabilityStatus } from '@/shared/data/pages/ecommerces/addproductsdata';
@@ -53,6 +54,7 @@ const validationSchema = Yup.object().shape({
 const AddProduct = () => {
 
 
+    const [isLoading, setIsLoading] = useState(false);
     const [isOpenMediaLibrary, setIsOpenMediaLibrary] = useState(false);
     const [isOpenGalleryMediaLibrary, setIsOpenGalleryMediaLibrary] = useState(false);
 
@@ -102,8 +104,18 @@ const AddProduct = () => {
             main_image_id: null,
             gallery_image_ids: [],
         },
-        onSubmit: (value) => {
-            console.log(value);
+        onSubmit: async (value, { resetForm }) => {
+            setIsLoading(true);
+            try {
+                const res = await api.post('/products', value);
+                alert(res.data.message)
+                resetForm()
+            } catch (e) {
+
+            }
+
+            setIsLoading(false);
+
 
         }
     })
@@ -222,7 +234,7 @@ const AddProduct = () => {
 
                                             <div className="xl:col-span-12 col-span-12">
                                                 <label className="form-label">Main Image</label>
-                                                <div className='w-36 aspect-square rounded-sm border border-gray-300 overflow-hidden'>
+                                                <div className='w-24 aspect-[3/4] rounded-sm border border-gray-300 overflow-hidden'>
                                                     {mainImage ?
                                                         <div className='relative h-full w-full group'>
                                                             <Image
@@ -247,7 +259,7 @@ const AddProduct = () => {
                                                 <label className="form-label">Gallery Image</label>
                                                 <div className='flex flex-wrap gap-3'>
                                                     {galleryImages?.map(media => (
-                                                        <div key={media.id} className='w-36 aspect-square overflow-hidden rounded-sm border border-gray-300  relative h-full group' >
+                                                        <div key={media.id} className='w-24 aspect-[3/4] overflow-hidden rounded-sm border border-gray-300  relative h-full group' >
                                                             <Image
                                                                 src={media.thumbnail}
                                                                 className='object-cover'
@@ -264,7 +276,7 @@ const AddProduct = () => {
                                                         </div>
                                                     ))}
 
-                                                    <div className='w-36 aspect-square rounded-sm border border-gray-300 '>
+                                                    <div className='w-24 aspect-[3/4] rounded-sm border border-gray-300 '>
                                                         <button className='h-full w-full flex justify-center items-center' onClick={openGalleryMediaLibrary}><IoMdAddCircleOutline size={30} className='text-gray-400' /> </button>
                                                     </div>
                                                 </div>
@@ -275,9 +287,9 @@ const AddProduct = () => {
                                 </div>
                             </div>
 
-                            <div className="px-6 py-4 border-t border-dashed dark:border-defaultborder/10 sm:flex justify-end">
-                                <button type="button" className="ti-btn ti-btn-primary !font-medium m-1" onClick={addProduct}>Add Product<i className="bi bi-plus-lg ms-2"></i></button>
-                                <button type="button" className="ti-btn ti-btn-success !font-medium m-1" onClick={saveProduct}>Save Product<i className="bi bi-download ms-2"></i></button>
+                            <div className="px-6 py-4 border-t border-dashed dark:border-defaultborder/10 sm:flex justify-end gap-3">
+                                <Button disabled={isLoading} loading={isLoading} type="button" color='primary' variant='light' onClick={addProduct}>Add Product<i className="bi bi-plus-lg ms-2"></i></Button>
+                                <Button disabled={isLoading} loading={isLoading} type="button" color='success' variant='light' onClick={saveProduct}>Save Product<i className="bi bi-download ms-2"></i></Button>
                             </div>
                         </div>
                     </div>
