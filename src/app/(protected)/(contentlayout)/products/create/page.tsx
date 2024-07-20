@@ -98,22 +98,28 @@ const AddProduct = () => {
             status: '',
             is_featured: false,
             tags: [],
+            is_published: false,
             main_image_id: null,
             gallery_image_ids: [],
         },
         onSubmit: (value) => {
+            console.log(value);
 
         }
     })
 
-    useEffect(() => {
-        console.log(formik.values);
-
-    }, [formik.values]);
-
     const handleSelectChange = (option: SelectOption[], name: string) => {
         const values = option?.map(item => item.value);
         formik.setFieldValue(name, values);
+    }
+
+    const addProduct = () => {
+        formik.setFieldValue('is_published', true);
+        formik.submitForm();
+    }
+    const saveProduct = () => {
+        formik.setFieldValue('is_published', false);
+        formik.submitForm();
     }
 
     return (
@@ -137,7 +143,7 @@ const AddProduct = () => {
                                                 />
                                             </div>
                                             <div className="xl:col-span-6 col-span-12">
-                                                <Select name="publisher_id" options={publishers} label='Publisher' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={(value: any) => handleSelectChange(value, 'publisher_id')}
+                                                <Select name="publisher_id" options={publishers} label='Publisher' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={(value: any) => formik.setFieldValue('publisher_id', value.value)}
                                                 />
                                             </div>
 
@@ -158,7 +164,28 @@ const AddProduct = () => {
                                             <div className="xl:col-span-12 col-span-12 mb-4">
                                                 <label className="form-label">Product Features</label>
                                                 <div id="product-features">
-                                                    <ReactQuill onChange={(value) => formik.setFieldValue('description', value)} />
+                                                    <ReactQuill
+                                                        onChange={(value) => formik.setFieldValue('description', value)}
+                                                        modules={{
+                                                            toolbar: {
+                                                                container: [
+                                                                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                                                                    ['bold', 'italic', 'underline', 'strike'],
+                                                                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                                    ['link', 'image'],
+                                                                    ['clean']
+                                                                ],
+                                                                handlers: {
+                                                                    // You can add custom handlers here if needed
+                                                                }
+                                                            },
+                                                            clipboard: {
+                                                                matchVisual: false,
+                                                            },
+                                                        }}
+                                                        theme="snow"
+                                                        style={{ height: '500px' }}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -166,16 +193,16 @@ const AddProduct = () => {
                                     <div className="xxl:col-span-6 xl:col-span-12 lg:col-span-12 md:col-span-6 col-span-12">
                                         <div className="grid grid-cols-12 gap-4">
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="type" options={[{ value: 'book', label: 'Book' }, { value: 'souvenir', label: 'Souvenir' }]} label='Product Type' id="type" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => handleSelectChange(value, 'souvenir')}
+                                                <Select name="type" options={[{ value: 'book', label: 'Book' }, { value: 'souvenir', label: 'Souvenir' }]} label='Product Type' id="type" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => formik.setFieldValue('type', value.value)}
                                                 />
 
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="language_id" options={languages} label='Language' id="language" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => handleSelectChange(value, 'language_id')}
+                                                <Select name="language_id" options={languages} label='Language' id="language_id" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => formik.setFieldValue('language_id', value.value)}
                                                 />
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="status" options={availabilityStatus} label='Availability' id="status" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => handleSelectChange(value, 'status')}
+                                                <Select name="status" options={availabilityStatus} label='Availability' id="status" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => formik.setFieldValue('status', value.value)}
                                                 />
 
                                             </div>
@@ -188,7 +215,7 @@ const AddProduct = () => {
 
                                             <div className="xl:col-span-12 col-span-12">
                                                 <div className="flex items-center">
-                                                    <input type="checkbox" id="hs-basic-with-description-unchecked" className="ti-switch mb-4" />
+                                                    <input type="checkbox" id="hs-basic-with-description-unchecked" className="ti-switch mb-4" name='is_featured' checked={formik.values.is_featured} onChange={formik.handleChange} />
                                                     <label htmlFor="hs-basic-with-description-unchecked" className="text-sm text-gray-500 ms-3 dark:text-[#8c9097] dark:text-white/50 mb-4">Featured</label>
                                                 </div>
                                             </div>
@@ -249,8 +276,8 @@ const AddProduct = () => {
                             </div>
 
                             <div className="px-6 py-4 border-t border-dashed dark:border-defaultborder/10 sm:flex justify-end">
-                                <button type="button" className="ti-btn ti-btn-primary !font-medium m-1">Add Product<i className="bi bi-plus-lg ms-2"></i></button>
-                                <button type="button" className="ti-btn ti-btn-success !font-medium m-1">Save Product<i className="bi bi-download ms-2"></i></button>
+                                <button type="button" className="ti-btn ti-btn-primary !font-medium m-1" onClick={addProduct}>Add Product<i className="bi bi-plus-lg ms-2"></i></button>
+                                <button type="button" className="ti-btn ti-btn-success !font-medium m-1" onClick={saveProduct}>Save Product<i className="bi bi-download ms-2"></i></button>
                             </div>
                         </div>
                     </div>

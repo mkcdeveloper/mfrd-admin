@@ -151,7 +151,7 @@ const FileUpload = ({ multiple = false }: { multiple?: boolean }) => {
             <Button color="danger" variant="default" rounded className='absolute top-2 right-2 z-20 size-10 opacity-0 group-hover:opacity-100 transition-opacity' onClick={() => removeFile(file.id)}>
               <IoMdClose size={15} />
             </Button>
-            <Image src={file.preview} fill className='object-cover' alt='' />
+            <Image src={file.preview} fill className='object-cover' alt='' sizes='100%' />
             {file.uploadPercentage < 100 && (
               <div className='absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1'>
                 {file.uploadPercentage}%
