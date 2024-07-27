@@ -28,7 +28,7 @@ interface SelectOption {
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
-        .max(30, 'Name should not exceed 30 characters')
+        .max(100, 'Name should not exceed 100 characters')
         .required('Product Name is required'),
     actual_price: Yup.number()
         .required('Actual price is required'),
@@ -41,6 +41,8 @@ const validationSchema = Yup.object().shape({
     //     .required('Description is required'),
     type: Yup.string()
         .required('Type is required'),
+    author_id: Yup.number()
+        .required('Author is required'),
     status: Yup.string()
         .required('Status is required'),
     tags: Yup.array()
@@ -68,6 +70,7 @@ const AddProduct = () => {
     const [categories, setCategories] = useState<SelectOption[]>([]);
     const [publishers, setPublishers] = useState<SelectOption[]>([]);
     const [languages, setLanguages] = useState<SelectOption[]>([]);
+    const [authors, setAuthors] = useState<SelectOption[]>([]);
 
     useEffect(() => {
         getFormInitialApi();
@@ -76,10 +79,11 @@ const AddProduct = () => {
 
     const getFormInitialApi = async () => {
         try {
-            const response = await api.get('/products/initial-form');
+            const response = await api.get('/product-initial-form');
             setCategories(response.data.categories);
             setPublishers(response.data.publishers);
             setLanguages(response.data.languages);
+            setAuthors(response.data.authors);
         } catch {
             throw Error('Initial Load Error')
         }
@@ -97,6 +101,7 @@ const AddProduct = () => {
             description: '',
             type: '',
             language_id: '',
+            author_id: '',
             status: '',
             is_featured: false,
             tags: [],
@@ -150,11 +155,15 @@ const AddProduct = () => {
                                                 <Input label='Product Name' placeholder='Name' isInvalid={isFieldInvalid('name', formik)} errorMessage={fieldErrorMessage('name', formik)} {...formik.getFieldProps('name')} />
                                                 <label htmlFor="product-name-add" className="form-label mt-1 text-[0.75rem] opacity-[0.5] !text-[#8c9097] dark:text-white/50 !mb-0">*Product Name should not exceed 30 characters</label>
                                             </div>
-                                            <div className="xl:col-span-6 col-span-12">
+                                            <div className="xl:col-span-4 col-span-12">
                                                 <Select options={categories} label='Category' id="category" className="w-full !rounded-md" isInvalid={isFieldInvalid('category_id', formik)} errorMessage={fieldErrorMessage('category_ids', formik)} name="category_ids" isMulti isSearchable placeholder="Select" onChange={(value: any) => handleSelectChange(value, 'category_ids')}
                                                 />
                                             </div>
-                                            <div className="xl:col-span-6 col-span-12">
+                                            <div className="xl:col-span-4 col-span-12">
+                                                <Select name="author_id" options={authors} label='Author' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={(value: any) => formik.setFieldValue('author_id', value.value)}
+                                                />
+                                            </div>
+                                            <div className="xl:col-span-4 col-span-12">
                                                 <Select name="publisher_id" options={publishers} label='Publisher' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={(value: any) => formik.setFieldValue('publisher_id', value.value)}
                                                 />
                                             </div>

@@ -18,7 +18,7 @@ export const authOptions: AuthOptions = {
                     body: JSON.stringify(credentials),
                 });
                 const user = await res.json();
-                console.log(user);
+
                 if (res.ok && user) {
                     return { ...user.user, token: user.token };
                 }
@@ -28,8 +28,6 @@ export const authOptions: AuthOptions = {
     ],
     callbacks: {
         jwt: ({ token, user }) => {
-            console.log("JWT callback - token:", token);
-            console.log("JWT callback - user:", user);
 
             if (user) {
                 token.user = user;
@@ -37,8 +35,6 @@ export const authOptions: AuthOptions = {
             return token;
         },
         session: ({ session, token }) => {
-            console.log("Session callback - session:", session);
-            console.log("Session callback - token:", token);
             session.user = token.user as any;
             return session;
         },
