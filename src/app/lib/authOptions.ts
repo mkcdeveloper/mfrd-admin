@@ -15,7 +15,7 @@ export const authOptions: AuthOptions = {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(credentials),
+                    body: JSON.stringify({ ...credentials, role: 'admin' }),
                 });
                 const user = await res.json();
 
