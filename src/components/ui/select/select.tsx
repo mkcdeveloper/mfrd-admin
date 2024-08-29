@@ -28,12 +28,15 @@ interface SelectProps {
 
 const Select = ({ options, isSearchable = false, label, isInvalid, errorMessage, onChange, name, id, isMulti = false, className, placeholder, value }: SelectProps) => {
 
-    console.log();
 
     return (
         <>
             <label className="form-label">{label}</label>
-            <SelectReact id="product-category-add" options={options} name={name} value={value} className={`w-full !rounded-md ${isInvalid && '!border-danger focus:border-danger focus:ring-danger'} ${className}`} isMulti={isMulti} isSearchable={isSearchable}
+            <SelectReact id="product-category-add" options={options} name={name} value={value} className={`w-full !rounded-md ${className}`} isMulti={isMulti} isSearchable={isSearchable}
+               classNames={{
+                control: (state) =>
+                    isInvalid ? '!border-danger focus:border-danger focus:ring-danger' : 'border-grey-300',
+              }}
                 menuPlacement='auto' classNamePrefix="Select2" placeholder={placeholder} onChange={onChange}
             />
             {isInvalid && <p className="text-sm text-red-600 mt-2" id="hs-validation-name-error-helper">{errorMessage}</p>}

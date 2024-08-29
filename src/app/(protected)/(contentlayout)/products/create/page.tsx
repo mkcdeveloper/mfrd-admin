@@ -12,8 +12,7 @@ import { IconTrash } from '@public/assets/iconfonts/tabler-icons/icons-react';
 import { useFormik } from 'formik';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { createRef, Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import ReactQuill from 'react-quill';
 import { ActionMeta } from 'react-select';
@@ -21,9 +20,6 @@ import { toast } from 'react-toastify';
 
 import * as Yup from 'yup';
 const ReactQuillEditor = dynamic(() => import("react-quill"), { ssr: false });
-
-
-
 
 interface SelectOption {
     value: string;
@@ -72,8 +68,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const AddProduct = () => {
-
-    const router = useRouter();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isOpenMediaLibrary, setIsOpenMediaLibrary] = useState(false);
@@ -207,7 +201,6 @@ const AddProduct = () => {
         <Fragment>
             <Seo title={"Add Products"} />
             <Pageheader currentpage="Add Products" activepage="Products" mainpage="Add Products" />
-            <button onClick={handleReset}>Clear dd</button>
             <div className="grid grid-cols-12 gap-6">
                 <div className="xl:col-span-12  col-span-12">
                     <div className="box">
@@ -216,7 +209,6 @@ const AddProduct = () => {
                                 <div className="grid grid-cols-12 md:gap-x-[3rem] gap-0">
                                     <div className="xxl:col-span-6 xl:col-span-12 lg:col-span-12 md:col-span-6 col-span-12">
                                         <div className="grid grid-cols-12 gap-4">
-
                                             <div className="xl:col-span-12 col-span-12">
                                                 <Input label='Product Name' placeholder='Name' isInvalid={isFieldInvalid('name', formik)} errorMessage={fieldErrorMessage('name', formik)} {...formik.getFieldProps('name')} />
                                                 <label htmlFor="product-name-add" className="form-label mt-1 text-[0.75rem] opacity-[0.5] !text-[#8c9097] dark:text-white/50 !mb-0">*Product Name should not exceed 30 characters</label>
