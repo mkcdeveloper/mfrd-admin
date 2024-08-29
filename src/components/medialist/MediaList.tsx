@@ -30,12 +30,12 @@ const MediaList = ({
     return (
         <div className='mt-5 flex gap-3 flex-wrap'>
             {data?.map((media: any) => {
-                const isSelected = selectedMedia.some(item => item.id === media.id);
+                const isSelected = selectedMedia.some(item => item.id === media.media_id);
                 return (
                     <div
                         key={media.id}
                         className={`w-32 aspect-square overflow-hidden rounded-sm relative group border-1 ${isSelected ? 'border-blue-600' : 'border-blue-400'}`}
-                        onClick={() => onSelectChange(media.id, media.thumbnail)}
+                        onClick={() => onSelectChange(media.media_id, media.thumbnail)}
                     >
                         <Image src={media.thumbnail} fill className='object-cover' alt='' sizes='100%' />
                         {isSelected && (

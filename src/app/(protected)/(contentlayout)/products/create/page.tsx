@@ -12,8 +12,11 @@ import { IconTrash } from '@public/assets/iconfonts/tabler-icons/icons-react';
 import { useFormik } from 'formik';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { createRef, Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import { ActionMeta } from 'react-select';
+import { toast } from 'react-toastify';
 
 import * as Yup from 'yup';
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -24,6 +27,16 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 interface SelectOption {
     value: string;
     label: string;
+}
+
+interface SelectInputState {
+    categories: SelectOption[];
+    author: SelectOption | null;
+    publisher: SelectOption | null;
+    type: SelectOption | null;
+    language: SelectOption | null;
+    availability: SelectOption | null;
+    tags: SelectOption[];
 }
 
 const validationSchema = Yup.object().shape({
@@ -55,6 +68,7 @@ const validationSchema = Yup.object().shape({
 
 const AddProduct = () => {
 
+    const router = useRouter();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isOpenMediaLibrary, setIsOpenMediaLibrary] = useState(false);
@@ -67,6 +81,32 @@ const AddProduct = () => {
     const [mainImage, setMainImage] = useState<{ id: number, thumbnail: string } | null>(null);
     const [galleryImages, setGalleryImages] = useState<{ id: number, thumbnail: string }[]>([]);
 
+    const [selectState, setSelectState] = useState<SelectInputState>({
+        categories: [],
+        author: null,
+        publisher: null,
+        type: null,
+        language: null,
+        availability: null,
+        tags: [],
+    });
+
+    const handleSelectChange = (
+        field: keyof SelectInputState,
+        formikField: string,
+        isMulti = false
+    ) => (newValue: unknown, actionMeta: ActionMeta<unknown>) => {
+        const updatedValue = newValue as SelectOption | SelectOption[];
+        setSelectState(prev => ({ ...prev, [field]: updatedValue }));
+
+        if (isMulti) {
+            const values = (updatedValue as SelectOption[]).map(item => item.value);
+            formik.setFieldValue(formikField, values);
+        } else {
+            formik.setFieldValue(formikField, (updatedValue as SelectOption).value);
+        }
+    };
+
     const [categories, setCategories] = useState<SelectOption[]>([]);
     const [publishers, setPublishers] = useState<SelectOption[]>([]);
     const [languages, setLanguages] = useState<SelectOption[]>([]);
@@ -75,6 +115,15 @@ const AddProduct = () => {
     useEffect(() => {
         getFormInitialApi();
     }, [])
+
+    const quillRef = useRef<ReactQuill | null>(null);
+
+    const handleReset = () => {
+        if (quillRef.current) {
+            const editor = quillRef.current.getEditor();
+            editor.setText('');  // This will clear the editor
+        }
+    };
 
 
     const getFormInitialApi = async () => {
@@ -113,10 +162,27 @@ const AddProduct = () => {
             setIsLoading(true);
             try {
                 const res = await api.post('/products', value);
-                alert(res.data.message)
                 resetForm()
-            } catch (e) {
-
+                toast(res.data.message, {
+                    type: "success"
+                })
+                setSelectState({
+                    categories: [],
+                    author: null,
+                    publisher: null,
+                    type: null,
+                    language: null,
+                    availability: null,
+                    tags: [],
+                })
+                setMainImage(null);
+                setGalleryImages([]);
+                // router.push('/products');
+            } catch (error: any) {
+                const errorMessage = error.response?.data?.message || error.message;
+                toast(errorMessage, {
+                    type: "error"
+                })
             }
 
             setIsLoading(false);
@@ -125,24 +191,18 @@ const AddProduct = () => {
         }
     })
 
-    const handleSelectChange = (option: SelectOption[], name: string) => {
-        const values = option?.map(item => item.value);
-        formik.setFieldValue(name, values);
-    }
-
     const addProduct = () => {
         formik.setFieldValue('is_published', true);
         formik.submitForm();
     }
-    const saveProduct = () => {
-        formik.setFieldValue('is_published', false);
-        formik.submitForm();
-    }
+
+
 
     return (
         <Fragment>
             <Seo title={"Add Products"} />
             <Pageheader currentpage="Add Products" activepage="Products" mainpage="Add Products" />
+            <button onClick={handleReset}>Clear dd</button>
             <div className="grid grid-cols-12 gap-6">
                 <div className="xl:col-span-12  col-span-12">
                     <div className="box">
@@ -151,20 +211,21 @@ const AddProduct = () => {
                                 <div className="grid grid-cols-12 md:gap-x-[3rem] gap-0">
                                     <div className="xxl:col-span-6 xl:col-span-12 lg:col-span-12 md:col-span-6 col-span-12">
                                         <div className="grid grid-cols-12 gap-4">
+
                                             <div className="xl:col-span-12 col-span-12">
                                                 <Input label='Product Name' placeholder='Name' isInvalid={isFieldInvalid('name', formik)} errorMessage={fieldErrorMessage('name', formik)} {...formik.getFieldProps('name')} />
                                                 <label htmlFor="product-name-add" className="form-label mt-1 text-[0.75rem] opacity-[0.5] !text-[#8c9097] dark:text-white/50 !mb-0">*Product Name should not exceed 30 characters</label>
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select options={categories} label='Category' id="category" className="w-full !rounded-md" isInvalid={isFieldInvalid('category_id', formik)} errorMessage={fieldErrorMessage('category_ids', formik)} name="category_ids" isMulti isSearchable placeholder="Select" onChange={(value: any) => handleSelectChange(value, 'category_ids')}
+                                                <Select options={categories} value={selectState.categories} label='Category' id="category" className="w-full !rounded-md" isInvalid={isFieldInvalid('category_id', formik)} errorMessage={fieldErrorMessage('category_ids', formik)} name="category_ids" isMulti isSearchable placeholder="Select" onChange={handleSelectChange('categories', 'category_ids', true)}
                                                 />
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="author_id" options={authors} label='Author' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={(value: any) => formik.setFieldValue('author_id', value.value)}
+                                                <Select name="author_id" options={authors} value={selectState.author} label='Author' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={handleSelectChange('author', 'author_id')}
                                                 />
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="publisher_id" options={publishers} label='Publisher' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={(value: any) => formik.setFieldValue('publisher_id', value.value)}
+                                                <Select name="publisher_id" options={publishers} value={selectState.publisher} label='Publisher' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={handleSelectChange('publisher', 'publisher_id')}
                                                 />
                                             </div>
 
@@ -187,6 +248,7 @@ const AddProduct = () => {
                                                 <div id="product-features">
                                                     <ReactQuill
                                                         onChange={(value) => formik.setFieldValue('description', value)}
+                                                        value={formik.values.description}
                                                         modules={{
                                                             toolbar: {
                                                                 container: [
@@ -214,23 +276,23 @@ const AddProduct = () => {
                                     <div className="xxl:col-span-6 xl:col-span-12 lg:col-span-12 md:col-span-6 col-span-12">
                                         <div className="grid grid-cols-12 gap-4">
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="type" options={[{ value: 'book', label: 'Book' }, { value: 'souvenir', label: 'Souvenir' }]} label='Product Type' id="type" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => formik.setFieldValue('type', value.value)}
+                                                <Select name="type" value={selectState.type} options={[{ value: 'book', label: 'Book' }, { value: 'souvenir', label: 'Souvenir' }]} label='Product Type' id="type" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('type', 'type')}
                                                 />
 
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="language_id" options={languages} label='Language' id="language_id" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => formik.setFieldValue('language_id', value.value)}
+                                                <Select name="language_id" options={languages} value={selectState.language} label='Language' id="language_id" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('language', 'language_id')}
                                                 />
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="status" options={availabilityStatus} label='Availability' id="status" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => formik.setFieldValue('status', value.value)}
+                                                <Select name="status" options={availabilityStatus} value={selectState.availability} label='Availability' id="status" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('availability', 'status')}
                                                 />
 
                                             </div>
 
 
                                             <div className="xl:col-span-12 col-span-12">
-                                                <Select name="tags" options={productTags} isMulti label='Product Tags' id="tags" className="w-full !rounded-md" placeholder="Select" onChange={(value: any) => handleSelectChange(value, 'tags')}
+                                                <Select name="tags" options={productTags} value={selectState.tags} isMulti label='Product Tags' id="tags" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('tags', 'tags', true)}
                                                 />
                                             </div>
 
@@ -298,7 +360,7 @@ const AddProduct = () => {
 
                             <div className="px-6 py-4 border-t border-dashed dark:border-defaultborder/10 sm:flex justify-end gap-3">
                                 <Button disabled={isLoading} loading={isLoading} type="button" color='primary' variant='light' onClick={addProduct}>Add Product<i className="bi bi-plus-lg ms-2"></i></Button>
-                                <Button disabled={isLoading} loading={isLoading} type="button" color='success' variant='light' onClick={saveProduct}>Save Product<i className="bi bi-download ms-2"></i></Button>
+                                {/* <Button disabled={isLoading} loading={isLoading} type="button" color='success' variant='light' onClick={saveProduct}>Save Product<i className="bi bi-download ms-2"></i></Button> */}
                             </div>
                         </div>
                     </div>

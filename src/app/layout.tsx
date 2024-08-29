@@ -9,6 +9,7 @@ import { Initialload } from "@/shared/contextapi";
 import { SessionProvider } from "next-auth/react";
 
 
+
 const RootLayout = ({ children }: any) => {
   const [pageloading, setpageloading] = useState(false)
   return (
@@ -19,6 +20,7 @@ const RootLayout = ({ children }: any) => {
         </Initialload.Provider>
       </Provider>
       <PrelineScript />
+      
     </SessionProvider>
   )
 }

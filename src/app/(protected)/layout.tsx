@@ -4,6 +4,12 @@ import { connect } from 'react-redux';
 import * as switcherdata from '../../shared/data/switcherdata/switcherdata';
 import { ThemeChanger } from '@/shared/redux/action';
 import { Initialload } from '@/shared/contextapi';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
 
 function Layout({ children, local_varaiable, ThemeChanger }: any) {
   const customstyles: any = {
@@ -16,6 +22,8 @@ function Layout({ children, local_varaiable, ThemeChanger }: any) {
   };
 
   const theme: any = useContext(Initialload);
+
+  const queryClient = new QueryClient()
 
 
   useEffect(() => {
@@ -47,7 +55,10 @@ function Layout({ children, local_varaiable, ThemeChanger }: any) {
       //Styles
       style={customstyles}>
       <body className={`${local_varaiable.body ? local_varaiable.body : ''}`}>
-        {theme.pageloading && children}
+        <QueryClientProvider client={queryClient}>
+          {theme.pageloading && children}
+        </QueryClientProvider>
+        <ToastContainer />
       </body>
     </html>
   )
