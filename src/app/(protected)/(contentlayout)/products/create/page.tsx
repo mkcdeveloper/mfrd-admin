@@ -15,11 +15,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { createRef, Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import ReactQuill from 'react-quill';
 import { ActionMeta } from 'react-select';
 import { toast } from 'react-toastify';
 
 import * as Yup from 'yup';
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const ReactQuillEditor = dynamic(() => import("react-quill"), { ssr: false });
 
 
 
@@ -56,6 +57,10 @@ const validationSchema = Yup.object().shape({
         .required('Type is required'),
     author_id: Yup.number()
         .required('Author is required'),
+    publisher_id: Yup.number()
+        .required('Publisher is required'),
+    language_id: Yup.number()
+        .required('Language is required'),
     status: Yup.string()
         .required('Status is required'),
     tags: Yup.array()
@@ -221,11 +226,11 @@ const AddProduct = () => {
                                                 />
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="author_id" options={authors} value={selectState.author} label='Author' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={handleSelectChange('author', 'author_id')}
+                                                <Select name="author_id" options={authors} value={selectState.author} label='Author' className="w-full !rounded-md" isInvalid={isFieldInvalid('author_id', formik)} errorMessage={fieldErrorMessage('author_id', formik)} isSearchable={true} placeholder="Select" onChange={handleSelectChange('author', 'author_id')}
                                                 />
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
-                                                <Select name="publisher_id" options={publishers} value={selectState.publisher} label='Publisher' className="w-full !rounded-md" isSearchable={true} placeholder="Select" onChange={handleSelectChange('publisher', 'publisher_id')}
+                                                <Select name="publisher_id" options={publishers} value={selectState.publisher} label='Publisher' className="w-full !rounded-md" isInvalid={isFieldInvalid('publisher_id', formik)} errorMessage={fieldErrorMessage('publisher_id', formik)} isSearchable={true} placeholder="Select" onChange={handleSelectChange('publisher', 'publisher_id')}
                                                 />
                                             </div>
 
@@ -246,7 +251,7 @@ const AddProduct = () => {
                                             <div className="xl:col-span-12 col-span-12 mb-4">
                                                 <label className="form-label">Product Features</label>
                                                 <div id="product-features">
-                                                    <ReactQuill
+                                                    <ReactQuillEditor
                                                         onChange={(value) => formik.setFieldValue('description', value)}
                                                         value={formik.values.description}
                                                         modules={{
@@ -277,15 +282,17 @@ const AddProduct = () => {
                                         <div className="grid grid-cols-12 gap-4">
                                             <div className="xl:col-span-4 col-span-12">
                                                 <Select name="type" value={selectState.type} options={[{ value: 'book', label: 'Book' }, { value: 'souvenir', label: 'Souvenir' }]} label='Product Type' id="type" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('type', 'type')}
-                                                />
+                                                    isInvalid={isFieldInvalid('type', formik)} errorMessage={fieldErrorMessage('type', formik)} />
 
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
                                                 <Select name="language_id" options={languages} value={selectState.language} label='Language' id="language_id" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('language', 'language_id')}
+                                                    isInvalid={isFieldInvalid('language_id', formik)} errorMessage={fieldErrorMessage('language_id', formik)}
                                                 />
                                             </div>
                                             <div className="xl:col-span-4 col-span-12">
                                                 <Select name="status" options={availabilityStatus} value={selectState.availability} label='Availability' id="status" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('availability', 'status')}
+                                                    isInvalid={isFieldInvalid('status', formik)} errorMessage={fieldErrorMessage('status', formik)}
                                                 />
 
                                             </div>
@@ -293,6 +300,7 @@ const AddProduct = () => {
 
                                             <div className="xl:col-span-12 col-span-12">
                                                 <Select name="tags" options={productTags} value={selectState.tags} isMulti label='Product Tags' id="tags" className="w-full !rounded-md" placeholder="Select" onChange={handleSelectChange('tags', 'tags', true)}
+                                                    isInvalid={isFieldInvalid('tags', formik)} errorMessage={fieldErrorMessage('tags', formik)}
                                                 />
                                             </div>
 
@@ -325,6 +333,7 @@ const AddProduct = () => {
 
                                                 </div>
                                                 <label className="form-label mt-1 text-[0.75rem] opacity-[0.5] !text-[#8c9097] dark:text-white/50 mb-0">*Image should be 1000 x 1300</label>
+                                                {isFieldInvalid('main_image_id', formik) && <p className="text-sm text-red-600 mt-2" id="hs-validation-name-error-helper">{fieldErrorMessage('main_image_id', formik)}</p>}
                                             </div>
                                             <div className="xl:col-span-12 col-span-12">
                                                 <label className="form-label">Gallery Image</label>
