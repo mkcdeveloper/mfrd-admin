@@ -5,12 +5,20 @@ import Pageheader from '@/shared/layout-components/page-header/pageheader'
 import Seo from '@/shared/layout-components/seo/seo'
 import Link from 'next/link'
 import React, { Fragment, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { DateTime } from 'luxon';
 import { formatDate, formatPriceINR } from '@/app/lib/helpers'
+import Modal from '@/components/ui/modal/modal'
+import Button from '@/components/ui/button/button'
+import { toast } from 'react-toastify'
 
 const Products = () => {
+
+  const queryClient = useQueryClient();
   const [ListData, setListData] = useState([...Productlistdata]);
+
+  const [isOpenDeleteDialogue, setIsOpenDeleteDialogue] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<null | number>(null);
 
   const getProducts = async (page = 1) => {
     try {
@@ -29,10 +37,38 @@ const Products = () => {
     }
   )
 
+  const handleConfirmDelete = async () => {
+    try {
+      const res = await api.delete(`/products/${selectedItem}`);
+      return res.data
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message;
+      toast(errorMessage, {
+        type: "error"
+      })
+    }
+    setIsOpenDeleteDialogue(false)
 
-  const handleDelete = (idToRemove: number) => {
-    const updatedListData = ListData.filter((item) => item.id !== idToRemove);
-    setListData(updatedListData);
+  };
+
+  const deleteMutation = useMutation(handleConfirmDelete, {
+    onSuccess: (res) => {
+      setSelectedItem(null);
+      setIsOpenDeleteDialogue(false)
+      toast(res.message, {
+        type: "success"
+      })
+      // Invalidate and refetch the 'items' query after successful deletion
+      queryClient.invalidateQueries(['products-list', page]);
+    },
+  });
+
+
+
+  const handleDeleteDialog = (idToRemove: number) => {
+    setSelectedItem(idToRemove);
+    setIsOpenDeleteDialogue(true)
+
   };
 
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -136,7 +172,7 @@ const Products = () => {
                             <div className="flex items-center">
                               <div className="me-2">
                                 <span className="avatar avatar-md avatar-rounded">
-                                  <img src={product.image.thumb} alt="" />
+                                  <img src={product.image?.thumb} alt="" />
                                 </span>
                               </div>
                               <div className="font-semibold">
@@ -157,10 +193,10 @@ const Products = () => {
                           <td>{formatDate(product.created_at)}</td>
                           <td>
                             <div className="flex flex-row items-center !gap-2 text-[0.9375rem]">
-                              <Link aria-label="anchor" href="/pages/ecommerce/edit-products/"
+                              <Link aria-label="anchor" href={`/products/edit/${product.id}`}
                                 className="ti-btn ti-btn-wave  !gap-0 !m-0 !h-[1.75rem] !w-[1.75rem] text-[0.8rem] bg-info/10 text-info hover:bg-info hover:text-white hover:border-info"><i
                                   className="ri-pencil-line"></i></Link>
-                              <Link aria-label="anchor" href="#!" scroll={false} onClick={() => handleDelete(product.id)}
+                              <Link aria-label="anchor" href="#!" scroll={false} onClick={() => handleDeleteDialog(product.id)}
                                 className="ti-btn ti-btn-wave product-btn !gap-0 !m-0 !h-[1.75rem] !w-[1.75rem] text-[0.8rem] bg-danger/10 text-danger hover:bg-danger hover:text-white hover:border-danger"><i
                                   className="ri-delete-bin-line"></i></Link>
                             </div>
@@ -211,6 +247,17 @@ const Products = () => {
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isOpenDeleteDialogue} onClose={() => setIsOpenDeleteDialogue(false)} title='Confirmation'>
+        <div className='flex flex-col justify-center items-center'>
+          <i className="ri-information-line text-3xl"></i>
+          <p>Are you sure you want to delete this item?</p>
+        </div>
+        <div className='flex justify-end gap-2 mt-4 w-full'>
+          <Button onClick={() => setIsOpenDeleteDialogue(false)}>Cancel</Button>
+          <Button color='danger' disabled={deleteMutation.isLoading} loading={deleteMutation.isLoading} onClick={deleteMutation.mutate}>Delete</Button>
+        </div>
+      </Modal>
     </Fragment>
   )
 }
