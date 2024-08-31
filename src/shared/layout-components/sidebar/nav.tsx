@@ -29,6 +29,7 @@ const NestedmenuIcon = <i className="bx bx-layer side-menu__icon"></i>;
 const TablesIcon = <i className="bx bx-table side-menu__icon"></i>;
 
 const ChartsIcon = <i className="bx bx-bar-chart-square side-menu__icon"></i>;
+const CartIcon = <i className='bx bx-cart-alt side-menu__icon'></i>;
 
 const MapsIcon = <i className="bx bx-map side-menu__icon"></i>;
 
@@ -97,56 +98,65 @@ export const MenuItems: any = [
   },
 
   {
-    icon: NestedmenuIcon,
-    title: "Nested Menu",
-    selected: false,
+    icon: CartIcon,
+    path: "/orders",
+    title: "Orders",
+    type: "link",
     active: false,
-    type: "sub",
-    children: [
-      {
-        path: "",
-        title: "Nested-1",
-        type: "empty",
-        active: false,
-        selected: false,
-        dirchange: false,
-      },
-
-      {
-        title: "Nested-2",
-        type: "sub",
-        active: false,
-        selected: false,
-        dirchange: false,
-        children: [
-          {
-            path: "",
-            type: "empty",
-            active: false,
-            selected: false,
-            dirchange: false,
-            title: "Nested-2-1",
-          },
-          {
-            path: "",
-            type: "empty",
-            ctive: false,
-            selected: false,
-            dirchange: false,
-            title: "Nested-2-2",
-          },
-          {
-            path: "",
-            type: "empty",
-            active: false,
-            selected: false,
-            dirchange: false,
-            title: "Nested-2-3",
-          },
-        ],
-      },
-    ],
+    selected: false,
   },
+
+  // {
+  //   icon: NestedmenuIcon,
+  //   title: "Nested Menu",
+  //   selected: false,
+  //   active: false,
+  //   type: "sub",
+  //   children: [
+  //     {
+  //       path: "",
+  //       title: "Nested-1",
+  //       type: "empty",
+  //       active: false,
+  //       selected: false,
+  //       dirchange: false,
+  //     },
+
+  //     {
+  //       title: "Nested-2",
+  //       type: "sub",
+  //       active: false,
+  //       selected: false,
+  //       dirchange: false,
+  //       children: [
+  //         {
+  //           path: "",
+  //           type: "empty",
+  //           active: false,
+  //           selected: false,
+  //           dirchange: false,
+  //           title: "Nested-2-1",
+  //         },
+  //         {
+  //           path: "",
+  //           type: "empty",
+  //           ctive: false,
+  //           selected: false,
+  //           dirchange: false,
+  //           title: "Nested-2-2",
+  //         },
+  //         {
+  //           path: "",
+  //           type: "empty",
+  //           active: false,
+  //           selected: false,
+  //           dirchange: false,
+  //           title: "Nested-2-3",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 
 
 ];
