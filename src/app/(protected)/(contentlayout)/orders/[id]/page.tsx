@@ -1,6 +1,7 @@
 "use client"
 import api from '@/app/lib/axios';
 import { formatPriceINR } from '@/app/lib/helpers';
+import ShippingLabelPrint from '@/components/ShippingLabelPrint ';
 import Pageheader from '@/shared/layout-components/page-header/pageheader'
 import Seo from '@/shared/layout-components/seo/seo'
 import Link from 'next/link';
@@ -66,7 +67,7 @@ const Orderdetails = ({ params }: { params: { id: string } }) => {
                                     </thead>
                                     <tbody>
                                         {data?.order_items?.map((item: any) => (
-                                            <tr className="border border-inherit border-solid dark:border-defaultborder/10">
+                                            <tr key={item.id} className="border border-inherit border-solid dark:border-defaultborder/10">
                                                 <td>
                                                     <div className="flex items-center">
                                                         <div className="me-4">
@@ -157,6 +158,7 @@ const Orderdetails = ({ params }: { params: { id: string } }) => {
                         </div>
                         <div className="box-footer !border-t-0">
                             <div className="btn-list ltr:float-right rtl:float-left">
+                                <ShippingLabelPrint recipientInfo={data.shipping_address} to={data.customer.name} orderNumber={data.order_number}/>
                                 <button aria-label="button" type="button" className="ti-btn bg-primary text-white !py-1 !px-2 !font-medium me-2" onClick={() => print()}><i className="ri-printer-line me-1 align-middle inline-block"></i>Print</button>
                                 <button aria-label="button" type="button" className="ti-btn bg-secondary text-white !py-1 !px-2 !font-medium"><i className="ri-share-forward-line me-1 align-middle inline-block"></i>Share Details</button>
                             </div>
@@ -177,6 +179,7 @@ const Orderdetails = ({ params }: { params: { id: string } }) => {
                                         <img src="../../../assets/images/faces/9.jpg" alt="" />
                                     </span>
                                 </div>
+                                
                                 <div className="flex-grow">
                                     <p className="mb-0">{data.customer.name}</p>
                                     <p className="mb-0 text-[#8c9097] dark:text-white/50 text-[0.75rem]">{data.customer.email}</p>

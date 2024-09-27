@@ -40,7 +40,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
           <div className="ti-offcanvas-body !px-0" id="switcher-body">
             <div id="switcher-1" role="tabpanel" aria-labelledby="switcher-item-1" className="">
               <div className="">
-                <p className="switcher-style-head">Theme Color Mode:</p>
+                <p className="switcher-style-head">Theme Color Mode{':'}</p>
                 <div className="grid grid-cols-3 switcher-style">
                   <div className="flex items-center">
                     <input type="radio" name="theme-style" className="ti-form-radio" id="switcher-light-theme" checked={local_varaiable.class != "dark"} onChange={_e => { }}
@@ -57,7 +57,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div>
-                <p className="switcher-style-head">Directions:</p>
+                <p className="switcher-style-head">Directions{':'}</p>
                 <div className="grid grid-cols-3  switcher-style">
                   <div className="flex items-center">
                     <input type="radio" name="direction" className="ti-form-radio" id="switcher-ltr" checked={local_varaiable.dir == "ltr"} onChange={_e => { }}
@@ -72,7 +72,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div>
-                <p className="switcher-style-head">Navigation Styles:</p>
+                <p className="switcher-style-head">Navigation Styles{':'}</p>
                 <div className="grid grid-cols-3  switcher-style">
                   <div className="flex items-center">
                     <input type="radio" name="navigation-style" className="ti-form-radio" id="switcher-vertical" checked={local_varaiable.dataNavLayout == "vertical"} onChange={_e => { }}
@@ -89,7 +89,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div>
-                <p className="switcher-style-head">Navigation Menu Style:</p>
+                <p className="switcher-style-head">Navigation Menu Style{':'}</p>
                 <div className="grid grid-cols-2 gap-2 switcher-style">
                   <div className="flex">
                     <input type="radio" name="navigation-data-menu-styles" className="ti-form-radio" id="switcher-menu-click"
@@ -122,7 +122,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div className=" sidemenu-layout-styles">
-                <p className="switcher-style-head">Sidemenu Layout Syles:</p>
+                <p className="switcher-style-head">Sidemenu Layout Syles{':'}</p>
                 <div className="grid grid-cols-2 gap-2 switcher-style">
                   <div className="flex">
                     <input type="radio" name="sidemenu-layout-styles" className="ti-form-radio" id="switcher-default-menu" defaultChecked
@@ -166,7 +166,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                   here.</div>
               </div>
               <div>
-                <p className="switcher-style-head">Page Styles:</p>
+                <p className="switcher-style-head">Page Styles{':'}</p>
                 <div className="grid grid-cols-3  switcher-style">
                   <div className="flex">
                     <input type="radio" name="data-page-styles" className="ti-form-radio" id="switcher-regular" checked={local_varaiable.dataPageStyle == "regular"} onChange={_e => { }}
@@ -189,7 +189,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div>
-                <p className="switcher-style-head">Layout Width Styles:</p>
+                <p className="switcher-style-head">Layout Width Styles{':'}</p>
                 <div className="grid grid-cols-3 switcher-style">
                   <div className="flex">
                     <input type="radio" name="layout-width" className="ti-form-radio" id="switcher-full-width" checked={local_varaiable.dataWidth == "fullwidth"} onChange={_e => { }}
@@ -205,7 +205,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div>
-                <p className="switcher-style-head">Menu Positions:</p>
+                <p className="switcher-style-head">Menu Positions{':'}</p>
                 <div className="grid grid-cols-3  switcher-style">
                   <div className="flex">
                     <input type="radio" name="data-menu-positions" className="ti-form-radio" id="switcher-menu-fixed" checked={local_varaiable.dataMenuPosition == "fixed"} onChange={_e => { }}
@@ -222,7 +222,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div>
-                <p className="switcher-style-head">Header Positions:</p>
+                <p className="switcher-style-head">Header Positions{':'}</p>
                 <div className="grid grid-cols-3 switcher-style">
                   <div className="flex">
                     <input type="radio" name="data-header-positions" className="ti-form-radio" id="switcher-header-fixed" checked={local_varaiable.dataHeaderPosition == "fixed"} onChange={_e => { }}
@@ -242,7 +242,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
             </div>
             <div id="switcher-2" className="hidden" role="tabpanel" aria-labelledby="switcher-item-2">
               <div className="theme-colors">
-                <p className="switcher-style-head">Menu Colors:</p>
+                <p className="switcher-style-head">Menu Colors{':'}</p>
                 <div className="flex switcher-style space-x-3 rtl:space-x-reverse">
                   <div className="hs-tooltip ti-main-tooltip ti-form-radio switch-select ">
                     <input className="hs-tooltip-toggle ti-form-radio color-input color-white" type="radio" name="menu-colors"
@@ -300,7 +300,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                   change from below Theme Primary color picker.</div>
               </div>
               <div className="theme-colors">
-                <p className="switcher-style-head">Header Colors:</p>
+                <p className="switcher-style-head">Header Colors{':'}</p>
                 <div className="flex switcher-style space-x-3 rtl:space-x-reverse">
                   <div className="hs-tooltip ti-main-tooltip ti-form-radio switch-select ">
                     <input className="hs-tooltip-toggle ti-form-radio color-input color-white !border" type="radio" name="header-colors"
@@ -358,7 +358,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                   change from below Theme Primary color picker.</div>
               </div>
               <div className="theme-colors">
-                <p className="switcher-style-head">Theme Primary:</p>
+                <p className="switcher-style-head">Theme Primary{':'}</p>
                 <div className="flex flex-wrap switcher-style gap-y-2 gap-x-5 rtl:gap-x-reverse">
                   <div className="ti-form-radio switch-select">
                     <input className="ti-form-radio color-input color-primary-1" type="radio" name="theme-primary"
@@ -405,7 +405,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div className="theme-colors">
-                <p className="switcher-style-head">Theme Background:</p>
+                <p className="switcher-style-head">Theme Background{':'}</p>
                 <div className="flex flex-wrap switcher-style gap-y-2 gap-x-5 rtl:gap-x-reverse">
                   <div className="ti-form-radio switch-select">
                     <input className="ti-form-radio color-input color-bg-1" type="radio" name="theme-background"
@@ -452,7 +452,7 @@ const Switcher = ({ local_varaiable, ThemeChanger }:any) => {
                 </div>
               </div>
               <div className="menu-image theme-colors">
-                <p className="switcher-style-head">Menu With Background Image:</p>
+                <p className="switcher-style-head">Menu With Background Image{':'}</p>
                 <div className="flex switcher-style space-x-3 rtl:space-x-reverse flex-wrap gap-3">
                   <div className="ti-form-radio switch-select">
                     <input className="ti-form-radio bgimage-input bg-img1" type="radio" name="theme-images" id="switcher-bg-img" onClick={() =>  switcherdata.bgImage1(ThemeChanger)}  checked={local_varaiable.colorPrimaryRgb == 'bg-img'} onChange={(_e) => { }}/>
