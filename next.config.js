@@ -7,7 +7,18 @@ const nextConfig = {
   basePath: "",
   assetPrefix: "",
   images: {
-    domains: ['localhost','store.malaibar.org'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000'
+      },
+      {
+        protocol: 'https',
+        hostname: 'mfrdapi.markazcity.in',
+        port: ''
+      }
+    ]
   },
   typescript: {
     ignoreBuildErrors: true,
