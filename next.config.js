@@ -15,7 +15,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'mfrdapi.markazcity.in',
+        hostname: 'backend.malaibar.org',
         port: ''
       }
     ]
