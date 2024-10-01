@@ -85,12 +85,9 @@ const ShippingLabelPrint: React.FC<ShippingLabelPrintProps> = ({
       <div ref={labelRef} style={{ display: "none" }}>
         {/* The content that will be printed */}
         <div className="shipping-label">
-          <div>
-            <Barcode format="CODE128" value={orderNumber} height={50} ean128={false} />
-          </div>
           <p>
             <strong>To:</strong> {to}
-          </p>
+          </p><br/>
           <p>{recipientInfo.address}</p>
           <p className="capitalize">
             {recipientInfo.city}, {recipientInfo.state}, {recipientInfo.pin_code}
